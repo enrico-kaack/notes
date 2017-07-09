@@ -17,6 +17,7 @@ var MarkdownIt = require('markdown-it')
 var md = new MarkdownIt({
   breaks: true
 })
+  .use(require('markdown-it-hashtag'))
   .use(require('markdown-it-checkbox'));
 
 

@@ -15,6 +15,7 @@
     "markdown": "^0.5.0",
     "markdown-it": "^8.3.1",
     "markdown-it-checkbox": "^1.1.0",
+    "markdown-it-hashtag": "^0.4.0",
     "marked": "^0.3.6",
     "pouchdb-browser": "^6.2.0",
     "vue": "^2.3.3",

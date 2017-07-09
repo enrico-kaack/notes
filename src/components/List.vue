@@ -30,7 +30,8 @@ export default {
   mounted: function () {
     var vm = this;
     this.$config.itemDb.allDocs({
-      include_docs: true
+      include_docs: true,
+      descending: true
     }).then(function (results) {
         vm.$data.list = results.rows.map(function (currentValue) {
         return {

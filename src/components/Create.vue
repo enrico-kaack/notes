@@ -23,12 +23,21 @@ export default {
   },
   methods: {
       saveToDb: function () {
-        this.$config.itemDb.post({
+        var vm = this;
+
+        this.$config.itemDb.put({
+          _id: vm.getIdNow(),
           rawMarkdown: this.$data.rawInput
+        }).then(function () {
+          vm.$router.push('/')
         }).catch(function (err) {
           console.error('Error saving new item to database', err)
         })
-      }
+      },
+
+    getIdNow: function () {
+      return new Date().getTime() + '' + Math.random()*10000;
+    }
   }
 }
 </script>
