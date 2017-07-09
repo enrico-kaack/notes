@@ -1,0 +1,39 @@
+<template>
+  <div>
+    <md-input-container>
+      <md-textarea rows="50" v-model="rawInput"></md-textarea>
+    </md-input-container>
+
+    <md-button class="md-fab md-fab-bottom-right md-warn" @click="saveToDb">
+      <md-icon>save</md-icon>
+    </md-button>
+
+  </div>
+
+</template>
+
+<script>
+export default {
+  name: 'create',
+  data () {
+    return {
+      msg: 'Welcome to Your Vue.js PWA',
+      rawInput: 'Enter markdown here'
+    }
+  },
+  methods: {
+      saveToDb: function () {
+        this.$config.itemDb.post({
+          rawMarkdown: this.$data.rawInput
+        }).catch(function (err) {
+          console.error('Error saving new item to database', err)
+        })
+      }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style>
+
+</style>
