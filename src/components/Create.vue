@@ -41,18 +41,30 @@ export default {
     },
 
     saveAllImagesToDb: function (id, rev) {
+      var async = require("async");
       var vm = this;
-    var revision = rev;
 
-    this.images.forEach(function (item){
-          vm.$config.itemDb.putAttachment(id, item.id, revision, item.data , item.type)
+    var imageSaver = {
+        revision: rev,
+        saveImage(item, callback){
+            console.log(item)
+          var is_this = this;
+          vm.$config.itemDb.putAttachment(id, item.id, this.revision, item.data , item.type)
             .then(function (result) {
-              revision = result.rev;
+              is_this.revision = result.rev;
               console.debug('saved image' , result)
+              callback(null, item)
             }).catch(function (err) {
-              console.error('Error saving image to db', item, err)
-        })
-      })
+            console.error('Error saving image to db', item, err)
+          })
+        }
+
+    }
+  imageSaver.revision = rev;
+   async.mapSeries(vm.images, imageSaver.saveImage.bind(imageSaver), function (err, results) {
+     if (err) console.error(err)
+     if (results) console.debug(results)
+   })
 
 
 

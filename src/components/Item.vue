@@ -5,7 +5,6 @@
 </template>
 
 <script>
-  var async = require("async");
   import marked from 'marked'
   marked.setOptions({
     gfm: true
@@ -29,6 +28,7 @@ export default {
   mounted: function () {
     //as soon as item is set, load attachments
     var vm = this;
+    var async = require("async");
 
     var imageRenderer = {
         render(element){
