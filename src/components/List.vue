@@ -1,7 +1,7 @@
 <template>
   <div>
   <p v-for="item in list">
-    <item :item="item"></item>
+    <item :item="item.item"></item>
   </p>
 
     <md-speed-dial md-open="hover" md-direction="top" class="md-fab-bottom-right" md-theme="light-blue">
@@ -33,9 +33,10 @@ export default {
       include_docs: true,
       descending: true
     }).then(function (results) {
+        console.log(results.rows)
         vm.$data.list = results.rows.map(function (currentValue) {
         return {
-            rawMarkdown: currentValue.doc.rawMarkdown
+            item: currentValue
         }
       })
     })

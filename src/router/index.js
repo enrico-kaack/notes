@@ -4,7 +4,7 @@ import Hello from '@/components/Hello'
 import List from '@/components/List'
 import Item from '@/components/Item'
 import Create from '@/components/Create'
-import 'vue-material/dist/vue-material.css'
+require('vue-material/dist/vue-material.css')
 
 var VueMaterial = require('vue-material')
 Vue.use(VueMaterial)
