@@ -23,21 +23,37 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js PWA',
       rawInput: '',
-      images: []
+      images: [],
+      tags: []
     }
   },
   methods: {
     saveToDb: function () {
       var vm = this;
-
+      this.extractTags()
       this.$config.itemDb.put({
         _id: vm.getIdNow(),
-        rawMarkdown: this.$data.rawInput
+        rawMarkdown: this.rawInput,
+        tags: this.tags
       }).then(function (result) {
           vm.saveAllImagesToDb(result.id, result.rev)
+          vm.saveTags(result.id)
       }).catch(function (err) {
         console.error('Error saving new item to database: ', err)
       })
+    },
+
+    saveTags: function (doc_id) {
+      
+    },
+
+    extractTags: function(){
+      var vm = this;
+      this.$config.md.renderer.rules.hashtag_text = function hashtag_text(tokens, idx) {
+        vm.tags.push(tokens[idx].content)
+        return '#' + tokens[idx].content;
+      }
+      this.$config.md.render(this.rawInput)
     },
 
     saveAllImagesToDb: function (id, rev) {
@@ -45,19 +61,19 @@ export default {
       var vm = this;
 
     var imageSaver = {
-        revision: rev,
-        saveImage(item, callback){
-            console.log(item)
-          var is_this = this;
-          vm.$config.itemDb.putAttachment(id, item.id, this.revision, item.data , item.type)
-            .then(function (result) {
-              is_this.revision = result.rev;
-              console.debug('saved image' , result)
-              callback(null, item)
-            }).catch(function (err) {
-            console.error('Error saving image to db', item, err)
-          })
-        }
+      revision: rev,
+      saveImage(item, callback){
+          console.log(item)
+        var is_this = this;
+        vm.$config.itemDb.putAttachment(id, item.id, this.revision, item.data , item.type)
+          .then(function (result) {
+            is_this.revision = result.rev;
+            console.debug('saved image' , result)
+            callback(null, item)
+          }).catch(function (err) {
+          console.error('Error saving image to db', item, err)
+        })
+      }
 
     }
   imageSaver.revision = rev;
