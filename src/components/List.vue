@@ -36,7 +36,6 @@ export default {
       include_docs: true,
       descending: true
     }).then(function (results) {
-        console.log(results.rows)
         vm.$data.list = results.rows.map(function (currentValue) {
         return {
             item: currentValue

@@ -54,14 +54,12 @@ export default {
 
     async.map(imageElements, imageRenderer.render.bind(imageRenderer), function (err, results) {
       if (err) console.error(err)
-      if (results) console.debug(results)
     })
 
 
   },
   methods: {
       renderImage: function (tokens, idx, options, env, self) {
-        console.log('render image', tokens, idx, options, env, self)
         var token = tokens[idx];
         var srcIndex = token.attrIndex('src');
         var srcId = token.attrs[srcIndex][1];

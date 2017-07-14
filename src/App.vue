@@ -8,7 +8,7 @@
     </header>
     <main>
 
-      <md-sidenav md-swipeable=true class="md-left" ref="leftSidenav">
+      <md-sidenav class="md-left" ref="leftSidenav">
       <md-toolbar class="md-toolbar-container">
         <div class="md-toolbar-container">
           <h3 class="md-title">Tags</h3>
@@ -41,10 +41,8 @@ export default {
     this.$config.tagDb.allDocs({include_docs: true}).then(function (results) {
       console.log(results.rows)
       results.rows.sort(function (a, b) {
-        console.log(a.doc.count, b.doc.count)
         return a.doc.count - b.doc.count
       })
-      console.log(results.rows)
       vm.tags = results.rows
 
     }).catch(function (err) {
