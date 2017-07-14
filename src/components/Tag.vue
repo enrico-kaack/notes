@@ -19,7 +19,7 @@ export default {
 
   methods: {
       tagClick: function () {
-        this.$router.push({name: 'List' , query: {search: this.$props.tag}})
+        this.$router.push({name: 'ListByTag' , params: {tag: this.$props.tag}})
         this.$emit('close');
       }
   }

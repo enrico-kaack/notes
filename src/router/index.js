@@ -42,6 +42,11 @@ export default new Router({
       component: List
     },
     {
+      path: '/tag/:tag',
+      name: 'ListByTag',
+      component: List
+    },
+    {
       path: '/create',
       name: 'Create',
       component: Create
