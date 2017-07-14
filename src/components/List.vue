@@ -1,5 +1,8 @@
 <template>
   <div>
+
+
+
   <p v-for="item in list">
     <item :item="item.item"></item>
   </p>

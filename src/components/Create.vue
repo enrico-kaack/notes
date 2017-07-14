@@ -44,7 +44,29 @@ export default {
     },
 
     saveTags: function (doc_id) {
-      
+      var vm = this;
+      var async = require("async");
+      var tagSaver =   {
+
+          saveTag: function (tag, callback) {
+            vm.$config.tagDb.upsert(tag, function (doc) {
+              if (!doc.count) {
+                doc.count = 0;
+              }
+              doc.count++;
+              return doc;
+            }).then(function (res) {
+              callback(null, res)
+            }).catch(function (err) {
+              console.error('Error saving tag', tag, err)
+            });
+          }
+      }
+
+      async.mapSeries(this.tags, tagSaver.saveTag.bind(tagSaver), function (err, results) {
+        console.log(results)
+      })
+
     },
 
     extractTags: function(){

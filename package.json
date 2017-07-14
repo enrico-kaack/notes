@@ -19,6 +19,7 @@
     "markdown-it-hashtag": "^0.4.0",
     "marked": "^0.3.6",
     "pouchdb-browser": "^6.2.0",
+    "pouchdb-upsert": "^2.2.0",
     "vue": "^2.3.3",
     "vue-config": "^1.0.0",
     "vue-material": "^0.7.4",

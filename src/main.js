@@ -3,11 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import Item from './components/Item'
+import Tag from './components/Tag.vue'
 import router from './router/index'
 
 
 Vue.config.productionTip = false
 Vue.component('item', Item)
+Vue.component('tag', Tag)
 
 /* eslint-disable no-new */
 new Vue({
