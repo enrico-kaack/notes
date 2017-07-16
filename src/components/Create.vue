@@ -4,9 +4,11 @@
       <md-textarea rows="50" v-model="rawInput"></md-textarea>
     </md-input-container>
 
-    <md-input-container>
-      <md-file placeholder="A nice input placeholder" accept="image/*" @selected="addImage"></md-file>
-    </md-input-container>
+
+    <input @change="addImage" ref="fileInput" type="file" accept="image/*" style="display:none;">
+    <md-button class="md-icon-button md-raised" @click="open">
+      <md-icon>attachment</md-icon>
+    </md-button>
 
     <md-button class="md-fab md-fab-bottom-right md-warn" @click="saveToDb">
       <md-icon>save</md-icon>
@@ -109,7 +111,9 @@ export default {
 
     },
 
-    addImage: function (imageList) {
+    addImage: function (e) {
+        console.log(e)
+      var imageList = e.target.files || e.dataTransfer.files;
       var vm = this;
       var reader = new FileReader();
       var id = vm.getIdNow()
@@ -131,6 +135,10 @@ export default {
 
     getIdNow: function () {
       return new Date().getTime() + '' + Math.random()*10000;
+    },
+    open: function() {
+        console.log('click')
+      this.$refs.fileInput.click()
     }
   }
 }
