@@ -45,7 +45,12 @@ export default new Router({
       component: List
     },
     {
-      path: '/create',
+      path: '/edit/:id',
+      name: 'Edit',
+      component: Create
+    },
+    {
+      path: '/edit',
       name: 'Create',
       component: Create
     }

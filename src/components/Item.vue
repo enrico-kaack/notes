@@ -1,5 +1,17 @@
 <template>
 <md-card md-with-hover>
+  <md-speed-dial md-open="hover" md-direction="left" class="md-fab-top-right" md-theme="light-blue">
+    <md-button class="md-fab md-mini" md-fab-trigger>
+      <md-icon md-icon-morph>mode_edit</md-icon>
+      <md-icon>mode_edit</md-icon>
+    </md-button>
+
+
+    <md-button @click="deleteItem"  class="md-fab md-primary md-mini md-clean">
+      <md-icon>delete</md-icon>
+    </md-button>
+  </md-speed-dial>
+
   <md-card-content v-html="parsedMarkdown"></md-card-content>
 </md-card>
 </template>
@@ -71,7 +83,14 @@ export default {
         renderTagLinks: function (tokens, idx) {
           var tagName = tokens[idx].content.toLowerCase();
           return '<a href="/#/?search=' + tagName + '" class="tag">';
-        }
+        },
+
+    deleteItem: function () {
+      this.$config.itemDb.remove(this.$props.item.id, this.$props.item.value.rev)
+        .then(function (res) {
+          console.log(res)
+        })
+    }
 
   }
 

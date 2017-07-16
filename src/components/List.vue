@@ -10,7 +10,7 @@
     <md-speed-dial md-open="hover" md-direction="top" class="md-fab-bottom-right" md-theme="light-blue">
       <md-button class="md-fab" md-fab-trigger @click="routeToCreate">
         <md-icon md-icon-morph>+</md-icon>
-        <md-icon>+</md-icon>
+        <md-icon>add</md-icon>
       </md-button>
 
 
@@ -72,7 +72,7 @@ export default {
       }
     },
     routeToCreate: function () {
-      this.$router.push('create')
+      this.$router.push({name: 'Create'})
     }
   }
 
