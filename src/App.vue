@@ -1,19 +1,28 @@
 <template>
   <div id="app">
-    <header>
-      <md-button class="md-icon-button" @click="toggleLeftSidenav">
-        <md-icon>menu</md-icon>
-      </md-button>
-      <span>Vue.js PWA</span>
-    </header>
-    <main>
+
+      <md-toolbar class="md-toolbar-container">
+        <md-button class="md-icon-button" @click="toggleLeftSidenav">
+          <md-icon>menu</md-icon>
+        </md-button>
+
+        <h3 class="md-title">Notes</h3>
+
+        <md-input-container class="searchContainer" md-inline md-clearable>
+          <md-input @keyup.enter.native="search" v-model="searchQuery"></md-input>
+        </md-input-container>
+      </md-toolbar>
 
       <md-sidenav class="md-left" ref="leftSidenav">
-      <md-toolbar class="md-toolbar-container">
-        <div class="md-toolbar-container">
+        <md-toolbar class="md-toolbar-container">
+          <md-button class="md-icon-button" @click="toggleLeftSidenav">
+            <md-icon>menu</md-icon>
+          </md-button>
+
           <h3 class="md-title">Tags</h3>
-        </div>
-      </md-toolbar>
+
+        </md-toolbar>
+
         <div class="md-toolbar-container">
         <div v-for="tag in tags" has-ripple>
           <tag @close="closeLeftSideNav" :tag="tag.id"></tag>
@@ -22,7 +31,6 @@
       </md-sidenav>
 
       <router-view id="main-body"></router-view>
-    </main>
 
 
   </div>
@@ -33,11 +41,24 @@ export default {
   name: 'app',
   data () {
       return {
+        searchQuery: '',
         tags: []
       }
   },
+
+  watch: {
+    $route: function(){
+      this.setSearchQuery()
+    },
+    searchQuery:function () {
+      //this.search()
+    }
+  },
   mounted: function () {
       var vm = this;
+
+      this.setSearchQuery()
+
     this.$config.tagDb.allDocs({include_docs: true}).then(function (results) {
       console.log(results.rows)
       results.rows.sort(function (a, b) {
@@ -55,6 +76,12 @@ export default {
     },
     closeLeftSideNav(){
         this.$refs.leftSidenav.close();
+    },
+    setSearchQuery: function () {
+      this.searchQuery = this.$route.query.search
+    },
+    search: function () {
+      this.$router.push({name: 'List' , query: {search: this.searchQuery}})
     }
 
   }
@@ -100,4 +127,7 @@ header span {
   box-sizing: border-box;
   padding-top: 16px;
 }
+  .searchContainer {
+    width: 200px;
+  }
 </style>

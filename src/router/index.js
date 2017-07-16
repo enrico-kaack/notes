@@ -13,6 +13,9 @@ Vue.use(Router)
 
 var PouchDB = require('pouchdb-browser');
 PouchDB.plugin(require('pouchdb-upsert'));
+PouchDB.plugin(require('pouchdb-quick-search'));
+
+//just for debuggin to use chrome extension
 window.PouchDB = PouchDB;
 
 var db = new PouchDB('items');
@@ -39,11 +42,6 @@ export default new Router({
     {
       path: '/',
       name: 'List',
-      component: List
-    },
-    {
-      path: '/tag/:tag',
-      name: 'ListByTag',
       component: List
     },
     {

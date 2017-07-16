@@ -29,21 +29,48 @@ export default {
       list: []
     }
   },
+  watch: {
+    $route: function () {
+      this.refreshListData()
+    }
+  },
 
-  mounted: function () {
-    var vm = this;
-    this.$config.itemDb.allDocs({
-      include_docs: true,
-      descending: true
-    }).then(function (results) {
-        vm.$data.list = results.rows.map(function (currentValue) {
-        return {
-            item: currentValue
-        }
-      })
-    })
+  created () {
+    this.refreshListData()
+
+
   },
   methods: {
+    setList: function (res) {
+      this.$data.list = res.rows.map(function (currentValue) {
+        return {
+          item: currentValue
+        }
+      })
+    },
+
+    refreshListData: function () {
+      var vm = this;
+      if (this.$route.query.search === undefined) {
+        this.$config.itemDb.allDocs({
+          include_docs: true,
+          descending: true
+        }).then(function (results) {
+          vm.setList(results)
+        })
+      }else if (this.$route.query.search !== undefined){
+        //just filter by tag
+        this.$config.itemDb.search({
+          query: this.$route.query.search,
+          fields: ['tags', 'rawMarkdown'],
+          include_docs: true
+        }).then(function (results) {
+          vm.setList(results)
+        }).catch(function (err) {
+          console.error('Error searching for tag', err)
+        })
+      }
+    },
     routeToCreate: function () {
       this.$router.push('create')
     }
