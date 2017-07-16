@@ -1,7 +1,7 @@
 <template>
 <md-card md-with-hover>
   <md-speed-dial md-open="hover" md-direction="left" class="md-fab-top-right" md-theme="light-blue">
-    <md-button class="md-fab md-mini" md-fab-trigger>
+    <md-button @click="editItem" class="md-fab md-mini" md-fab-trigger>
       <md-icon md-icon-morph>mode_edit</md-icon>
       <md-icon>mode_edit</md-icon>
     </md-button>
@@ -90,6 +90,9 @@ export default {
         .then(function (res) {
           console.log(res)
         })
+    },
+    editItem: function () {
+      this.$router.push({name: 'Edit' , params: {id: this.$props.item.id}})
     }
 
   }

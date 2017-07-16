@@ -29,14 +29,30 @@ export default {
       tags: []
     }
   },
+  mounted: function(){
+      var vm = this;
+    if (this.$route.params.id !== undefined){
+      this.$config.itemDb.get(this.$route.params.id,
+        {
+            include_docs: true
+        })
+        .then(function (res) {
+          vm.rawInput = res.rawMarkdown;
+        }).catch(function (err) {
+          console.error('Error loading item on edit', err)
+      })
+}
+  },
+
+
   methods: {
     saveToDb: function () {
       var vm = this;
       this.extractTags()
-      this.$config.itemDb.put({
-        _id: vm.getIdNow(),
-        rawMarkdown: this.rawInput,
-        tags: this.tags
+      this.$config.itemDb.upsert(vm.getIdNow(), function (doc) {
+        doc.rawMarkdown = vm.rawInput;
+        doc.tags = vm.tags;
+        return doc;
       }).then(function (result) {
           vm.saveAllImagesToDb(result.id, result.rev)
           vm.saveTags(result.id)
@@ -66,7 +82,9 @@ export default {
       }
 
       async.mapSeries(this.tags, tagSaver.saveTag.bind(tagSaver), function (err, results) {
-        console.log(results)
+        if (err) console.error(err)
+
+        vm.$router.go(-1)
       })
 
     },
@@ -134,10 +152,12 @@ export default {
     },
 
     getIdNow: function () {
-      return new Date().getTime() + '' + Math.random()*10000;
+        if (this.$route.params.id === undefined)
+          return new Date().getTime() + '' + Math.random()*10000;
+        else
+          return this.$route.params.id;
     },
     open: function() {
-        console.log('click')
       this.$refs.fileInput.click()
     }
   }
