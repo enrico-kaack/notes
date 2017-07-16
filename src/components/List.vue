@@ -3,8 +3,8 @@
 
 
 
-  <p class="listItem" v-for="item in list">
-    <item :item="item.item"></item>
+  <p class="listItem" v-for="(item, index)  in list">
+    <item :item="item.item" :index="index"></item>
   </p>
 
     <md-speed-dial md-open="hover" md-direction="top" class="md-fab-bottom-right" md-theme="light-blue">

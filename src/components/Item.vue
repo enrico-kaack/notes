@@ -23,7 +23,7 @@
   })
 export default {
   name: 'item',
-  props: ['item'],
+  props: ['item', 'index'],
   data () {
     return {
       images: [],
@@ -35,10 +35,16 @@ export default {
       parsedMarkdown: function () {
         this.$config.md.renderer.rules.image = this.renderImage;
         this.$config.md.renderer.rules.hashtag_open = this.renderTagLinks;
-        return this.$config.md.render(this.item.doc.rawMarkdown)
+        var rendered = this.$config.md.render(this.item.doc.rawMarkdown);
+        return rendered;
       }
   },
+  updated: function () {
+
+  },
   mounted: function () {
+    this.setListenerForCheckboxes()
+
     //as soon as item is set, load attachments
     var vm = this;
     var async = require("async");
@@ -93,6 +99,35 @@ export default {
     },
     editItem: function () {
       this.$router.push({name: 'Edit' , params: {id: this.$props.item.id}})
+    },
+    setListenerForCheckboxes: function () {
+      var vm = this;
+      var async = require("async");
+      var currentItem = document.getElementsByClassName('listItem')[this.index];
+      var checkboxes = currentItem.querySelectorAll("input[type='checkbox']");
+
+      async.each(checkboxes, function (box, callback) {
+        box.addEventListener('click', vm.handleCheckboxTogle)
+      })
+    },
+    handleCheckboxTogle: function (e) {
+      var checkboxContent = document.querySelector('label[for="' + e.target.id +'"]').innerHTML;
+      if (e.target.checked){ //needs to be set to checked
+        this.item.doc.rawMarkdown = this.item.doc.rawMarkdown.replace('[ ] ' + checkboxContent, '[x] '+ checkboxContent)
+      }else{
+        this.item.doc.rawMarkdown = this.item.doc.rawMarkdown.replace('[x] ' + checkboxContent, '[ ] '+ checkboxContent)
+      }
+
+      this.updateDb()
+    },
+    updateDb: function () {
+      var vm = this;
+      this.$config.itemDb.upsert(this.item.id, function () {
+        return vm.item.doc
+      })
+        .catch(function (err) {
+          console.error(err)
+        })
     }
 
   }
