@@ -51,7 +51,8 @@ export default {
       this.setSearchQuery()
     },
     searchQuery:function () {
-      //this.search()
+
+        if (this.searchQuery.length === 0) this.search()
     }
   },
   mounted: function () {
@@ -90,7 +91,7 @@ export default {
 
 <style>
   #main-body {
-    width: 90%;
+    width: 100%;
 
   }
 body {

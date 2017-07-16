@@ -22,6 +22,7 @@ export default {
   computed: {
       parsedMarkdown: function () {
         this.$config.md.renderer.rules.image = this.renderImage;
+        this.$config.md.renderer.rules.hashtag_open = this.renderTagLinks;
         return this.$config.md.render(this.item.doc.rawMarkdown)
       }
   },
@@ -65,6 +66,11 @@ export default {
         var srcId = token.attrs[srcIndex][1];
         return '<div><img src="" id="' + srcId + '" alt="" class="imagesToLoad '+ this.item.id +'"></img></div>';
 
+        },
+
+        renderTagLinks: function (tokens, idx) {
+          var tagName = tokens[idx].content.toLowerCase();
+          return '<a href="/#/?search=' + tagName + '" class="tag">';
         }
 
   }

@@ -3,7 +3,7 @@
 
 
 
-  <p v-for="item in list">
+  <p class="listItem" v-for="item in list">
     <item :item="item.item"></item>
   </p>
 
@@ -51,7 +51,7 @@ export default {
 
     refreshListData: function () {
       var vm = this;
-      if (this.$route.query.search === undefined) {
+      if (this.$route.query.search === undefined || this.$route.query.search.length === 0) {
         this.$config.itemDb.allDocs({
           include_docs: true,
           descending: true
@@ -82,7 +82,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-#id {
+.listItem {
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+  #id {
   width: 90%;
   margin: auto;
 }
