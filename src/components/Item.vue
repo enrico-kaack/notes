@@ -1,11 +1,14 @@
 <template>
 <md-card md-with-hover>
-  <md-speed-dial md-open="hover" md-direction="left" class="md-fab-top-right" md-theme="light-blue">
-    <md-button @click="editItem" class="md-fab md-mini" md-fab-trigger>
-      <md-icon md-icon-morph>mode_edit</md-icon>
-      <md-icon>mode_edit</md-icon>
+  <md-speed-dial md-open="click" md-direction="left" class="md-fab-top-right" md-theme="light-blue">
+    <md-button class="md-fab md-mini" md-fab-trigger>
+      <md-icon md-icon-morph>more_horiz</md-icon>
+      <md-icon>more_horiz</md-icon>
     </md-button>
 
+    <md-button @click="editItem" class="md-fab md-primary md-mini md-clean">
+      <md-icon>mode_edit</md-icon>
+    </md-button>
 
     <md-button @click="deleteItem"  class="md-fab md-primary md-mini md-clean">
       <md-icon>delete</md-icon>
