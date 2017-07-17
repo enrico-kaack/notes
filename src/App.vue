@@ -13,7 +13,7 @@
         </md-input-container>
       </md-toolbar>
 
-      <md-sidenav class="md-left" ref="leftSidenav">
+      <md-sidenav class="md-left" ref="leftSidenav" md-swipeable>
         <md-toolbar class="md-toolbar-container">
           <md-button class="md-icon-button" @click="toggleLeftSidenav">
             <md-icon>menu</md-icon>
