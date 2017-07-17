@@ -9,6 +9,7 @@
         <h3 class="md-title">Notes</h3>
 
         <md-input-container class="searchContainer" md-inline md-clearable>
+          <md-icon>search</md-icon>
           <md-input @keyup.enter.native="search" v-model="searchQuery"></md-input>
         </md-input-container>
       </md-toolbar>
@@ -128,7 +129,9 @@ header span {
   box-sizing: border-box;
   padding-top: 16px;
 }
-  .searchContainer {
-    width: 200px;
-  }
+.searchContainer {
+  width: calc(100% - 200px);
+  min-width: 75px;
+  max-width: 300px;
+}
 </style>
